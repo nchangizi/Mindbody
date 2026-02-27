@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mind-Body Recovery Cards</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0ede8; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 24px 16px; }
+
+  h1 { font-size: 1.2rem; color: #6b5b4e; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 20px; font-weight: 600; }
+
+  /* Topic nav */
+  .nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 780px; margin-bottom: 28px; }
+  .nav-btn { padding: 6px 14px; border-radius: 20px; border: 2px solid transparent; background: white; color: #6b5b4e; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .nav-btn:hover { border-color: #c9a98a; }
+  .nav-btn.active { background: #c9a98a; color: white; border-color: #c9a98a; }
+
+  /* Card */
+  .card { background: white; border-radius: 20px; max-width: 720px; width: 100%; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+
+  .card-header { padding: 28px 32px 20px; border-bottom: 1px solid #f0ede8; }
+  .topic-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; opacity: 0.7; }
+  .card-title { font-size: 1.9rem; font-weight: 700; color: #2d2420; }
+  .card-subtitle { margin-top: 8px; font-size: 0.95rem; color: #7a6a62; line-height: 1.5; }
+
+  .card-body { padding: 24px 32px 32px; display: flex; flex-direction: column; gap: 20px; }
+
+  /* Sections */
+  .section { border-radius: 12px; padding: 18px 20px; }
+  .section-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; opacity: 0.6; }
+  .section ul { padding-left: 16px; }
+  .section li { font-size: 0.9rem; line-height: 1.6; color: #3a2e2a; margin-bottom: 4px; }
+  .section p { font-size: 0.9rem; line-height: 1.6; color: #3a2e2a; }
+
+  .sec-concept { background: #fdf6f0; }
+  .sec-concept .section-title { color: #b07040; }
+
+  .sec-reframe { background: #f0f7f4; }
+  .sec-reframe .section-title { color: #2e7d5e; }
+  .reframe-item { background: white; border-left: 3px solid #4caf85; border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; font-size: 0.88rem; line-height: 1.5; color: #2d2420; }
+  .reframe-item .old { color: #999; text-decoration: line-through; font-size: 0.82rem; margin-bottom: 2px; }
+  .reframe-item .new { color: #2e7d5e; font-weight: 600; }
+
+  .sec-strategy { background: #f4f0f9; }
+  .sec-strategy .section-title { color: #6a3ea1; }
+  .strategy-chip { display: inline-block; background: #ede8f7; color: #6a3ea1; border-radius: 20px; padding: 4px 12px; font-size: 0.82rem; font-weight: 600; margin: 3px 3px 3px 0; }
+
+  .sec-writing { background: #fff8e6; }
+  .sec-writing .section-title { color: #b07800; }
+  .prompt { background: white; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; font-size: 0.88rem; line-height: 1.5; color: #3a2e2a; border: 1px solid #f0d98a; }
+  .prompt::before { content: "✏️  "; }
+
+  /* Nav arrows */
+  .card-footer { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; border-top: 1px solid #f0ede8; }
+  .arrow-btn { background: none; border: 2px solid #d4c4b8; border-radius: 50%; width: 40px; height: 40px; font-size: 1.1rem; cursor: pointer; color: #6b5b4e; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+  .arrow-btn:hover { background: #c9a98a; border-color: #c9a98a; color: white; }
+  .arrow-btn:disabled { opacity: 0.25; cursor: default; }
+  .counter { font-size: 0.85rem; color: #9a8880; font-weight: 600; }
+
+  /* Color accents per topic */
+  .accent-0 { border-top: 5px solid #e07b54; }
+  .accent-1 { border-top: 5px solid #f0b429; }
+  .accent-2 { border-top: 5px solid #4caf85; }
+  .accent-3 { border-top: 5px solid #5b8dee; }
+  .accent-4 { border-top: 5px solid #e05a7a; }
+  .accent-5 { border-top: 5px solid #9b59b6; }
+  .accent-6 { border-top: 5px solid #1abc9c; }
+  .accent-7 { border-top: 5px solid #e67e22; }
+  .accent-8 { border-top: 5px solid #c0392b; }
+  .accent-9 { border-top: 5px solid #2980b9; }
+  .accent-10 { border-top: 5px solid #27ae60; }
+  .accent-11 { border-top: 5px solid #8e44ad; }
+  .accent-12 { border-top: 5px solid #d35400; }
+  .accent-13 { border-top: 5px solid #16a085; }
+</style>
+</head>
+<body>
+
+<h1>Mind-Body Recovery</h1>
+<div class="nav" id="nav"></div>
+<div class="card" id="card"></div>
+
+<script>
+const topics = [
+  {
+    title: "Rumination",
+    subtitle: "Rumination is your mind signalling that something needs attention — not a loop to get lost in.",
+    concepts: [
+      "Recurring thoughts are signals pointing toward needed action, not facts to believe.",
+      "Rumination often means you need to engage in something meaningful.",
+      "You are not your thoughts — thoughts can come and go, and that's okay."
+    ],
+    reframes: [
+      { old: "I can't stop thinking about this.", new: "This thought is a signal. What action is it pointing to?" },
+      { old: "My mind keeps going in circles.", new: "I can observe this thought without becoming it." }
+    ],
+    strategies: ["Notice the thought", "Ask: what action does this signal?", "Engage in meaningful activity", "Practice thought distancing", "Remind yourself: I am not my thoughts"],
+    prompts: [
+      "What recurring thought keeps surfacing? What action might it be pointing you toward?",
+      "Write about a time you observed a thought without acting on it. How did that feel?"
+    ]
+  },
+  {
+    title: "Gratitude",
+    subtitle: "Appreciating the good — even amid difficulty — is a reminder that you are not powerless.",
+    concepts: [
+      "Gratitude involves finding good things no matter how small, even within your condition.",
+      "It is a demonstration of control and agency — you choose where to place attention.",
+      "Your condition itself can be a source of gratitude: resilience, perspective, growth."
+    ],
+    reframes: [
+      { old: "Everything is awful because of my condition.", new: "What has this condition taught me? How have I grown?" },
+      { old: "There's nothing to be grateful for today.", new: "Even one small thing counts — a person, a meal, a moment." }
+    ],
+    strategies: ["Daily 3-item gratitude list", "Include people, activities, food, objects", "Reflect on what your condition has given you", "Notice the small positives"],
+    prompts: [
+      "What has your condition taught you that you might not have learned otherwise?",
+      "List 5 things you're grateful for today — at least one must relate to your condition."
+    ]
+  },
+  {
+    title: "Anxiety",
+    subtitle: "Anxiety is a message, not a threat. Accepting it — rather than fighting it — is the path through.",
+    concepts: [
+      "Anxiety is a symptom signalling that something requires your attention.",
+      "Fighting anxiety makes it stronger. Acceptance and making space for it is key.",
+      "The brain catastrophises by nature — thoughts are not facts.",
+      "Reframing anxious thoughts makes them more realistic and less activating."
+    ],
+    reframes: [
+      { old: "I need to get rid of this anxiety.", new: "I can make space for this feeling and explore what it's telling me." },
+      { old: "This is unbearable.", new: "This too shall pass. I am not my anxiety." },
+      { old: "The worst will definitely happen.", new: "My brain is catastrophising. What's a more realistic view?" }
+    ],
+    strategies: ["Accept and make space for the feeling", "Explore the root cause", "Challenge catastrophic thoughts", "Reframe to realistic alternatives", "Remind yourself: I am not my anxiety"],
+    prompts: [
+      "What is your anxiety trying to tell you right now? What underlying need or fear does it point to?",
+      "Write about a past anxiety that passed. What actually happened?"
+    ]
+  },
+  {
+    title: "Acceptance",
+    subtitle: "Acceptance is not giving up — it's choosing your current reality as a starting point for change.",
+    concepts: [
+      "Acceptance means embracing life without judging or fighting it.",
+      "It means making peace with inner experiences rather than suppressing them.",
+      "Acceptance removes stress, denial, and self-blame.",
+      "It lets go of resistance to what cannot be changed while engaging with what can.",
+      "Acceptance is the starting point for informed decisions and effective action."
+    ],
+    reframes: [
+      { old: "I can't accept this — it means giving up.", new: "Acceptance is how I start making real change." },
+      { old: "I have to fight my condition.", new: "Maybe so, maybe not. We'll see. I can work with reality as it is." },
+      { old: "I shouldn't feel this way.", new: "I can make peace with this feeling instead of fighting it." }
+    ],
+    strategies: ["Practise 'maybe so, maybe not'", "Surrender to emotions without suppressing", "Remove self-blame from the situation", "Use current reality as a decision-making starting point"],
+    prompts: [
+      "Have you truly accepted your diagnosis — or are you still 'fighting' it? Explore the emotions around that.",
+      "When symptoms worsen, do you accept them or respond with fear/frustration? What would acceptance look like in that moment?",
+      "Are there limitations your condition has caused that you haven't yet made peace with?"
+    ]
+  },
+  {
+    title: "Stress",
+    subtitle: "Stress isn't caused by what happens — it's caused by how you think about what happens.",
+    concepts: [
+      "Certain ways of thinking (hypervigilance, high standards, worst-case scenarios, unregulated emotions) cause stress — not events themselves.",
+      "The same situation can feel stressful or manageable depending entirely on your thinking.",
+      "Changing your thinking style is the primary lever for reducing stress."
+    ],
+    reframes: [
+      { old: "Everything in my life is causing me stress.", new: "My thinking patterns are creating the experience of stress. I can change those." },
+      { old: "This situation is too much.", new: "How am I thinking about this? Is there another interpretation?" }
+    ],
+    strategies: ["Identify thought patterns driving stress", "Challenge hypervigilance", "Lower perfectionism", "Regulate emotions before they escalate", "Reframe worst-case thinking"],
+    prompts: [
+      "Think of a recent stressful situation. What were the thoughts that made it stressful — not the situation itself?",
+      "Write down all the ways you put yourself under pressure (perfectionism, people-pleasing, inner critic, health worry, not setting boundaries, etc.)."
+    ]
+  },
+  {
+    title: "Emotions",
+    subtitle: "There are no negative emotions. Every emotion is a message your body is sending you.",
+    concepts: [
+      "Emotions encourage decisions and self-care — they are not problems to eliminate.",
+      "Suppressing emotions causes the body to amplify the signal → stress response → high alert.",
+      "Expressing emotions signals safety to the body → shifts from fight-or-flight to rest-and-digest.",
+      "Labelling and validating emotions reduces internal conflict and nervous system arousal.",
+      "Emotions and symptoms have a bi-directional relationship — each affects the other."
+    ],
+    reframes: [
+      { old: "I shouldn't feel this way.", new: "This emotion is a message. What is my body trying to tell me?" },
+      { old: "I need to push this feeling away.", new: "If I suppress this, my body will turn up the volume. I can make space for it." }
+    ],
+    strategies: ["Observe (what does it feel in the body?)", "Honour (make space, thank your body)", "Decipher (what is the message?)", "Action (respond appropriately)", "Expand your emotional vocabulary", "Use more emotion words daily"],
+    prompts: [
+      "Sit with a current emotion. Where do you feel it in your body? What might it be trying to tell you?",
+      "Are there emotions you tend to suppress? What might they be trying to communicate?"
+    ]
+  },
+  {
+    title: "Sleep",
+    subtitle: "How you think about sleep matters more than any sleep habit. Worrying about sleep is the real problem.",
+    concepts: [
+      "People caught in the sleep-anxiety spiral worry about sleep, which worsens it.",
+      "Worrying about sleep is a stronger pathogen than poor sleep itself.",
+      "Our estimation of how much sleep we need and get is often inaccurate.",
+      "Common distortions: catastrophising, all-or-nothing, over-negativity, overgeneralising."
+    ],
+    reframes: [
+      { old: "I got terrible sleep — today is ruined.", new: "I am not quite as refreshed as I'd like. I can handle this." },
+      { old: "I must sleep perfectly every night.", new: "Treat sleep like the weather — it varies. I can handle whatever I get." },
+      { old: "I need to fix my sleep urgently.", new: "The less I think about sleep, the better. I'll let it come naturally." }
+    ],
+    strategies: ["Treat sleep like the weather — accept variability", "Stop overanalysing sleep quality", "Challenge catastrophic sleep thoughts", "Recognise that worry is the main problem", "Reduce sleep performance anxiety"],
+    prompts: [
+      "What do you tell yourself after a bad night? Are those thoughts accurate or catastrophising?",
+      "How much mental energy do you spend thinking about sleep? What would it feel like to let go of that?"
+    ]
+  },
+  {
+    title: "Hypervigilance",
+    subtitle: "Being wired for threat detection is a strength — but in chronic illness it keeps you stuck in fight-or-flight.",
+    concepts: [
+      "Hypervigilance: constant high alert, symptom scanning, reassurance-seeking, over-planning.",
+      "The brain is so powerful that even thinking about threats prepares the body to respond as if they are real.",
+      "This uses enormous energy and maintains fight-or-flight unnecessarily.",
+      "Hypervigilance creates self-fulfilling cycles — anticipating symptoms can produce them."
+    ],
+    reframes: [
+      { old: "I need to monitor my symptoms closely.", new: "Constant scanning keeps me in fight-or-flight. I can choose to observe and then let go." },
+      { old: "I need to google this symptom.", new: "Seeking reassurance feeds the loop. I can sit with the uncertainty instead." }
+    ],
+    strategies: ["Become aware of the vigilance pattern", "Challenge irrational symptom-related thoughts", "Sit with feelings rather than fleeing them", "Practise meditation", "Let go of need to control everything"],
+    prompts: [
+      "In what ways do you scan for danger in your body or life? How much energy does that use?",
+      "What would it feel like to trust that you are safe right now, even without checking?"
+    ]
+  },
+  {
+    title: "The Illness Loop",
+    subtitle: "Symptoms trigger worry, which worsens symptoms. But what is learned can be unlearned.",
+    concepts: [
+      "Loop: Symptoms → worry/anxiety → fight-or-flight → increased symptoms → more worry.",
+      "Catastrophising significantly increases the severity and duration of symptoms.",
+      "The brain cannot distinguish real from perceived threats — it responds to both the same way.",
+      "Low-level chronic fight-or-flight disrupts energy, digestion, sleep, and healing silently.",
+      "The brain uses senses, body, memories, emotions, and thoughts to decide what's threatening.",
+      "Because this loop is learned, it can also be unlearned. Recovery is possible."
+    ],
+    reframes: [
+      { old: "My symptoms are getting worse — something must be very wrong.", new: "My brain may be stuck in the illness loop. This is learned — and it can be unlearned." },
+      { old: "I feel terrible — I need to rest and avoid everything.", new: "Retreating feeds the loop. The real problem is being stuck in fight-or-flight, not fight-or-flight itself." }
+    ],
+    strategies: ["Recognise when you're in the loop", "Use neutral language for symptoms", "Interrupt catastrophising early", "Engage in meaningful activity", "Practise nervous system regulation"],
+    prompts: [
+      "Map your personal illness loop — where does it usually start, and how does it escalate?",
+      "What does it mean to you that the loop can be unlearned? What feelings does that bring up?"
+    ]
+  },
+  {
+    title: "Reframing & Language",
+    subtitle: "Your internal dialogue shapes your body's response. Neutral language reduces the stress signal.",
+    concepts: [
+      "Fear-inducing words activate the stress response. Neutral words calm it.",
+      "Reframing changes how you think and speak about symptoms — creating a calmer perspective.",
+      "Our perception of our limits can actually change those limits.",
+      "When you believe something will be too much, the brain treats it as a threat — self-fulfilling prophecy."
+    ],
+    reframes: [
+      { old: "Here comes a big crash.", new: "I don't have quite as much energy as I'd like right now." },
+      { old: "I'm not going to get anything done today.", new: "I'm not quite as productive as I'd like to be right now." },
+      { old: "I feel so brain-fogged.", new: "I don't have the clarity of thinking I'd like right now." },
+      { old: "I am in so much pain.", new: "I'm experiencing a sensation." },
+      { old: "I slept awfully and feel terrible.", new: "I'm not quite as refreshed as I'd like." }
+    ],
+    strategies: ["Swap fear-inducing words for neutral ones", "Practice reframes daily", "After overexertion: 'I am fine, no need to panic'", "Challenge catastrophic self-talk in real time"],
+    prompts: [
+      "What are the 3 most common fear-inducing phrases you say to yourself about your symptoms? Write a neutral reframe for each.",
+      "Notice your inner dialogue today. Are you speaking to your body with fear or with calm?"
+    ]
+  },
+  {
+    title: "Rest & Activity",
+    subtitle: "Rest isn't always the answer. Meaningful activity is medicine for the nervous system.",
+    concepts: [
+      "Long-term rest is not beneficial — it increases worry space and maintains fight-or-flight.",
+      "Resting more → more rumination → more symptoms → more rest (decreased activity loop).",
+      "Prolonged rest causes secondary problems: poor sleep, muscle atrophy, poor circulation, mental health decline.",
+      "Meaningful activity reduces stress, improves mood, sleep, immunity, and pain management.",
+      "The goal isn't to push through symptoms — but to gradually re-engage with life."
+    ],
+    reframes: [
+      { old: "I need to rest until I feel better.", new: "Long-term rest feeds the loop. What small meaningful activity can I do today?" },
+      { old: "Activity makes my symptoms worse.", new: "Fear of activity creates a cycle. Loss of fear is what breaks it." }
+    ],
+    strategies: ["Find activities matched to current health", "Gradually reduce fear of activity", "Don't push through, but don't fully avoid", "Focus on meaningful engagement, not performance"],
+    prompts: [
+      "What meaningful activities have you given up because of your condition? Which one could you gently re-approach?",
+      "How much of your day is structured around resting vs. engaging? How does each feel?"
+    ]
+  },
+  {
+    title: "Learned Behaviour",
+    subtitle: "The brain can form false associations that produce real symptoms — and those associations can be unlearned.",
+    concepts: [
+      "The brain forms associations between perceived triggers and physical symptoms.",
+      "False associations produce real physiological responses — this is classical conditioning.",
+      "Even when the original trigger is gone, strong neural pathways keep producing symptoms.",
+      "The more you focus on symptoms near a trigger, the stronger and more real they become.",
+      "As soon as you become scared of something, it will elicit a fear response — regardless of cause."
+    ],
+    reframes: [
+      { old: "This trigger is definitely causing my symptoms.", new: "My brain may have learned a false association. The trigger is activating a neural pathway, not a direct cause." },
+      { old: "My symptoms prove something is wrong.", new: "My brain is responding to a perceived threat. The association can be changed." }
+    ],
+    strategies: ["Identify possible false associations", "Reduce fear around suspected triggers", "Expose gradually with calm self-talk", "Reinforce that you are safe", "Remember: what is learned can be unlearned"],
+    prompts: [
+      "Are there situations, places, or activities you now avoid because they seem to trigger symptoms? Could any of these be a learned association?",
+      "What would you do differently if you believed your brain had learned a false association?"
+    ]
+  },
+  {
+    title: "Inner Critic",
+    subtitle: "Your inner critic is trying to protect you — but its methods are activating your stress response.",
+    concepts: [
+      "The inner critic is part of the ego trying to protect your true self.",
+      "Every 'not good enough' message activates the stress response to give you resources to 'improve'.",
+      "Chronic illness triggers the brain's negativity bias, which amplifies the inner critic.",
+      "The inner critic usually exaggerates or lies — its thoughts can be challenged."
+    ],
+    reframes: [
+      { old: "I'm not doing enough / I'm failing.", new: "My inner critic is trying to protect me, but it's exaggerating. I am doing the best I can." },
+      { old: "I should be further along by now.", new: "I can be curious about this voice rather than believing it." }
+    ],
+    strategies: ["Challenge the critic's thoughts — it usually exaggerates", "Be curious about it, not controlled by it", "Practise self-compassion", "Celebrate small achievements", "Use mindfulness to observe the critic without fusing with it"],
+    prompts: [
+      "What does your inner critic say most often? Where do you think that voice came from?",
+      "Would you speak to a close friend the way your inner critic speaks to you? What would you say instead?"
+    ]
+  },
+  {
+    title: "Health Tracking",
+    subtitle: "Obsessive health tracking can feed the illness loop rather than help you out of it.",
+    concepts: [
+      "Overanalysing symptoms increases health anxiety, not understanding.",
+      "Tracking can create false associations between triggers and symptoms — associations that then produce real symptoms.",
+      "Obsessive monitoring takes a significant toll on mental health.",
+      "Data gathered under anxiety is often inaccurate and misleading."
+    ],
+    reframes: [
+      { old: "I need to track everything so I understand my condition.", new: "Constant tracking may be feeding my anxiety and reinforcing false associations." },
+      { old: "If I monitor closely enough, I'll find the pattern.", new: "Hypervigilant tracking keeps my brain in fight-or-flight. Less monitoring can mean fewer symptoms." }
+    ],
+    strategies: ["Consider whether tracking is helping or feeding anxiety", "Notice if tracking creates worry spirals", "Take breaks from symptom monitoring", "Ask: is this data useful or is it just reassurance-seeking?"],
+    prompts: [
+      "How much time do you spend tracking symptoms or researching your condition each day? How do you feel after?",
+      "Has tracking ever made you feel better long-term, or does it tend to increase your worry?"
+    ]
+  },
+  {
+    title: "Thought Disengaging",
+    subtitle: "Thoughts are not facts, not permanent, and not you. You can observe them without being swept away.",
+    concepts: [
+      "Thoughts are by-products of the mind — they do not define you.",
+      "Many thoughts are inaccurate, biased, or distorted (catastrophising, all-or-nothing, overgeneralising).",
+      "The brain has a natural negativity bias — this keeps us in fight-or-flight even without real threats.",
+      "Disengaging means observing thoughts without becoming emotionally tangled in them.",
+      "When we disengage, thoughts lose their power to negatively affect the body."
+    ],
+    reframes: [
+      { old: "I can't stop these thoughts.", new: "Let them come. Let them be. Let them go — like clouds passing in the sky." },
+      { old: "This thought must be true — it feels so real.", new: "Thoughts are not facts. I can observe this without believing it." },
+      { old: "I am anxious / I am in pain / I am broken.", new: "I am noticing a thought about anxiety / pain / illness. It does not define me." }
+    ],
+    strategies: ["Let thoughts come — don't fight them", "Let them be — observe without reacting", "Let them go — recognise they are transient", "Label the thought type (e.g. 'that's catastrophising')", "Step back and watch thoughts like clouds"],
+    prompts: [
+      "What thought keeps coming up most? Can you observe it as just a thought rather than a fact?",
+      "Write about what it would feel like to watch your thoughts pass by without grabbing onto them."
+    ]
+  },
+  {
+    title: "Being Present",
+    subtitle: "Mindful presence with symptoms signals safety to the brain. Distracted focus on symptoms feeds the loop.",
+    concepts: [
+      "Being present with symptoms — without needing to escape them — sends the brain a message that they are safe, even if uncomfortable.",
+      "Focusing on symptoms without presence leads to catastrophising and worsens them.",
+      "Mindfulness means being with your experience as it is, without judgement or reaction.",
+      "Presence interrupts the automatic threat-detection cycle."
+    ],
+    reframes: [
+      { old: "I need to distract myself from these symptoms.", new: "I can be with this sensation mindfully. It is uncomfortable but not dangerous." },
+      { old: "I keep noticing this symptom — something must be wrong.", new: "I can observe this sensation with curiosity rather than fear. My presence signals safety." }
+    ],
+    strategies: ["Sit with symptoms mindfully rather than fleeing", "Observe without judging or reacting", "Use breath as an anchor to the present moment", "Notice: am I present with this, or am I spiralling?"],
+    prompts: [
+      "Choose one uncomfortable sensation today and sit with it for 2 minutes. What did you notice?",
+      "What does it feel like to be fully present with discomfort rather than distracted from it?"
+    ]
+  },
+  {
+    title: "Happiness & Joy",
+    subtitle: "Joy is the ultimate counter to fear. When you're happy, your brain knows you're safe.",
+    concepts: [
+      "When you are happy and relaxed, your brain perceives safety and is far less likely to trigger fight-or-flight.",
+      "Joy directly counteracts the fear that keeps you in a heightened state of alert.",
+      "Happiness is not a luxury in recovery — it is a nervous system regulator.",
+      "Engaging in joyful activities is a direct signal of safety to the brain."
+    ],
+    reframes: [
+      { old: "I can't enjoy things while I feel this way.", new: "Doing something joyful sends a powerful safety signal to my brain — it is part of healing." },
+      { old: "I'll be happy when I feel better.", new: "Choosing joy now is one of the ways I help myself feel better." }
+    ],
+    strategies: ["Actively schedule joyful activities", "Notice what makes you feel light, playful, or absorbed", "Treat enjoyment as nervous system medicine", "Don't wait to feel well — let joy lead the way"],
+    prompts: [
+      "What activities genuinely bring you joy? When did you last do one?",
+      "Write about a recent moment of happiness. What was happening in your body during that time?"
+    ]
+  },
+  {
+    title: "Talking to the Subconscious Brain",
+    subtitle: "You can consciously reassure your subconscious brain that the alarm it's sounding is a false alarm.",
+    concepts: [
+      "The brain's fight-or-flight response is automatic — but you can interrupt it with deliberate counter-messaging.",
+      "Speaking directly to the subconscious reminds it that perceived danger is not real danger.",
+      "This practice helps break the automatic stress response and reteach the brain safety.",
+      "It works best when done calmly, consistently, and with genuine intent — not as a dismissal."
+    ],
+    reframes: [
+      { old: "I can't control my body's stress response.", new: "I can speak directly to my subconscious and remind it that I am safe." },
+      { old: "These symptoms mean something is very wrong.", new: "I know these symptoms are messages, and I am listening. Everything is okay." }
+    ],
+    strategies: [
+      "'I know you're perceiving danger, but it's a false alarm.'",
+      "'Thank you for trying to help — but you're being counterproductive right now.'",
+      "'I know you're going back to old ways. We don't do that anymore.'",
+      "'I know these symptoms are messages, and I'm listening to you.'",
+      "'Everything is okay. I am safe.'"
+    ],
+    prompts: [
+      "Write a short letter to your subconscious brain about what it has been trying to protect you from. Thank it — and then reassure it.",
+      "Next time you feel a symptom spike, what specific phrase will you say to your subconscious? Write it down and practise it."
+    ]
+  },
+  {
+    title: "Releasing Tension & Body Awareness",
+    subtitle: "A relaxed body signals safety to the brain. Awareness of tension — and releasing it — is medicine.",
+    concepts: [
+      "The brain takes cues from the body: a relaxed body signals 'we are safe.'",
+      "Releasing physical tension directly calms the nervous system.",
+      "Body awareness is your emotional barometer — sensing what emotions feel like physically.",
+      "When you acknowledge, make space, and feel an emotion fully, the body is reassured the message is heard → stress response relaxes.",
+      "Everything felt in the body — emotions, sensations, symptoms — is a message."
+    ],
+    reframes: [
+      { old: "I can't control my body's reactions.", new: "When I release physical tension, I am sending a direct message of safety to my brain." },
+      { old: "I don't know what I'm feeling.", new: "I can scan my body and ask: where am I holding tension? What emotion might that be carrying?" }
+    ],
+    strategies: ["Deliberate tension-release practices (body scans, breathwork)", "Build ongoing awareness of physical and emotional tension throughout the day", "Label emotions by their physical sensations", "Expand emotional vocabulary", "Treat all body sensations as messages, not threats"],
+    prompts: [
+      "Where in your body do you tend to hold tension? What emotion might live there?",
+      "Practise a body scan right now — what do you notice? What message might your body be sending?"
+    ]
+  }
+];
+
+let current = 0;
+
+function colorClass(i) { return `accent-${i % 14}`; }
+
+function render() {
+  const t = topics[current];
+  // Nav
+  document.getElementById('nav').innerHTML = topics.map((tp, i) =>
+    `<button class="nav-btn ${i===current?'active':''}" onclick="go(${i})">${tp.title}</button>`
+  ).join('');
+
+  // Card
+  document.getElementById('card').className = `card ${colorClass(current)}`;
+  document.getElementById('card').innerHTML = `
+    <div class="card-header">
+      <div class="topic-label">Topic ${current+1} of ${topics.length}</div>
+      <div class="card-title">${t.title}</div>
+      <div class="card-subtitle">${t.subtitle}</div>
+    </div>
+    <div class="card-body">
+      <div class="section sec-concept">
+        <div class="section-title">📚 Key Concepts</div>
+        <ul>${t.concepts.map(c=>`<li>${c}</li>`).join('')}</ul>
+      </div>
+      <div class="section sec-reframe">
+        <div class="section-title">🔄 Reframes & Helpful Phrases</div>
+        ${t.reframes.map(r=>`<div class="reframe-item"><div class="old">${r.old}</div><div class="new">→ ${r.new}</div></div>`).join('')}
+      </div>
+      <div class="section sec-strategy">
+        <div class="section-title">🛠 Practical Strategies</div>
+        ${t.strategies.map(s=>`<span class="strategy-chip">${s}</span>`).join('')}
+      </div>
+      <div class="section sec-writing">
+        <div class="section-title">✏️ Reflection Prompts</div>
+        ${t.prompts.map(p=>`<div class="prompt">${p}</div>`).join('')}
+      </div>
+    </div>
+    <div class="card-footer">
+      <button class="arrow-btn" onclick="go(${current-1})" ${current===0?'disabled':''}>←</button>
+      <span class="counter">${current+1} / ${topics.length}</span>
+      <button class="arrow-btn" onclick="go(${current+1})" ${current===topics.length-1?'disabled':''}>→</button>
+    </div>
+  `;
+}
+
+function go(i) {
+  if (i < 0 || i >= topics.length) return;
+  current = i;
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+render();
+</script>
+</body>
+</html>
