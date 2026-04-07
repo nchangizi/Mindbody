@@ -173,7 +173,7 @@ function render(){
       <div class="section sec-writing"><div class="section-title">✏️ Reflection Prompts</div>${t.prompts.map(p=>`<div class="prompt">${p}</div>`).join('')}</div>
     </div>`;
   }
-  const lbl=t.isIntro?'Getting Started':`Topic ${cur} of ${T.length-1}`;
+  const lbl=`Topic ${cur+1} of ${T.length}`;
   document.getElementById('card').className=`card a${cur%20}`;
   document.getElementById('card').innerHTML=`
     <div class="card-header"><div class="topic-label">${lbl}</div><div class="card-title">${t.title}</div><div class="card-subtitle">${t.subtitle}</div></div>
