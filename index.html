@@ -35,6 +35,12 @@
   .sec-strategy .section-title { color: #6a3ea1; }
   .strategy-chip { display: inline-block; background: #ede8f7; color: #6a3ea1; border-radius: 20px; padding: 4px 12px; font-size: 0.82rem; font-weight: 600; margin: 3px 3px 3px 0; }
   .sec-writing { background: #fff8e6; }
+  .sec-diagram { background: #fdf6f0; }
+  .sec-diagram .section-title { color: #b07040; }
+  .cycle-node { background: white; border: 2px solid #c9a98a; border-radius: 8px; padding: 8px 10px; font-size: 0.8rem; font-weight: 600; color: #3a2e2a; text-align: center; line-height: 1.3; width: 100%; }
+  .cycle-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; justify-items: center; gap: 6px; max-width: 380px; margin: 4px auto; }
+  .cycle-arr-h { color: #c9a98a; font-size: 1.1rem; font-weight: 700; }
+  .cycle-arr-v { color: #c9a98a; font-size: 1.1rem; font-weight: 700; width: 100%; text-align: center; }
   .sec-writing .section-title { color: #b07800; }
   .prompt { background: white; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; font-size: 0.88rem; line-height: 1.5; color: #3a2e2a; border: 1px solid #f0d98a; }
   .prompt::before { content: "✏️  "; }
@@ -97,7 +103,8 @@ prompts:["How much time do you spend tracking symptoms each day? How do you feel
 concepts:["People caught in the sleep-anxiety spiral worry about sleep — which worsens it.","Worrying about sleep is a stronger pathogen than poor sleep itself.","Our estimation of how much sleep we need and get is often inaccurate.","Common distortions: catastrophising, all-or-nothing thinking, overgeneralising."],
 reframes:[{o:"I got terrible sleep — today is ruined.",n:"I'm not quite as refreshed as I'd like. I can handle this."},{o:"I must sleep perfectly every night.",n:"Treat sleep like the weather — it varies. I can handle whatever I get."},{o:"I need to fix my sleep urgently.",n:"The less I think about sleep, the better. I'll let it come naturally."}],
 strategies:["Treat sleep like weather","Stop overanalysing quality","Challenge catastrophic thoughts","Reduce performance anxiety","Recognise worry as the problem"],
-prompts:["What do you tell yourself after a bad night? Are those thoughts accurate or catastrophising?","How much mental energy do you spend thinking about sleep? What would it feel like to let that go?"]},
+prompts:["What do you tell yourself after a bad night? Are those thoughts accurate or catastrophising?","How much mental energy do you spend thinking about sleep? What would it feel like to let that go?"],
+diagram:"<div class='cycle-grid'><div class='cycle-node'>Worry about sleep</div><div class='cycle-arr-h'>→</div><div class='cycle-node'>Poor sleep</div><div class='cycle-arr-v'>↑</div><div></div><div class='cycle-arr-v'>↓</div><div class='cycle-node'>Even worse sleep</div><div class='cycle-arr-h'>←</div><div class='cycle-node'>More worry &amp; arousal</div></div>"},
 {title:"Hypervigilance",subtitle:"Constant threat-scanning keeps your nervous system in fight-or-flight — even with no real threat.",
 concepts:["Hypervigilance: constant high alert, symptom scanning, reassurance-seeking, over-planning.","Even thinking about threats prepares the body to respond as if they are real.","This uses enormous energy and maintains fight-or-flight unnecessarily.","Hypervigilance creates self-fulfilling cycles — anticipating symptoms can produce them."],
 reframes:[{o:"I need to monitor my symptoms closely.",n:"Constant scanning keeps me in fight-or-flight. I can observe and let go."},{o:"I need to google this symptom.",n:"Reassurance-seeking feeds the loop. I can sit with the uncertainty."}],
@@ -107,17 +114,19 @@ prompts:["In what ways do you scan for danger? How much energy does that use?","
 concepts:["Loop: Symptoms trigger worry, which activates fight-or-flight, which increases symptoms, which creates more worry.","Catastrophising significantly increases the severity and duration of symptoms.","The brain cannot distinguish real from perceived threats — it responds to both the same way.","Low-level chronic fight-or-flight disrupts energy, digestion, sleep, and healing silently.","Because this loop is learned, it can be unlearned. Recovery is possible."],
 reframes:[{o:"My symptoms are getting worse — something must be very wrong.",n:"My brain may be stuck in the illness loop. This is learned — and it can be unlearned."},{o:"I feel terrible — I need to avoid everything.",n:"Retreating feeds the loop. The real problem is being stuck in fight-or-flight."}],
 strategies:["Recognise the loop","Use neutral symptom language","Interrupt catastrophising early","Engage meaningfully","Regulate the nervous system"],
-prompts:["Map your personal illness loop — where does it usually start and how does it escalate?","What does it mean to you that the loop can be unlearned? What feelings does that bring up?"]},
+prompts:["Map your personal illness loop — where does it usually start and how does it escalate?","What does it mean to you that the loop can be unlearned? What feelings does that bring up?"],
+diagram:"<div class='cycle-grid'><div class='cycle-node'>Symptoms</div><div class='cycle-arr-h'>→</div><div class='cycle-node'>Worry &amp; anxiety</div><div class='cycle-arr-v'>↑</div><div></div><div class='cycle-arr-v'>↓</div><div class='cycle-node'>Worsened symptoms</div><div class='cycle-arr-h'>←</div><div class='cycle-node'>Fight-or-flight</div></div>"},
 {title:"Reframing & Language",subtitle:"Fear-inducing words activate the stress response. Neutral words calm it.",
 concepts:["Fear-inducing words activate the stress response. Neutral words calm it.","Reframing changes how you think and speak about symptoms — creating a calmer perspective.","Our perception of our limits can actually change those limits.","When you believe something will be too much, the brain treats it as a threat — self-fulfilling prophecy."],
-reframes:[{o:"Here comes a big crash.",n:"I don't have quite as much energy as I'd like right now."},{o:"I am in so much pain.",n:"I'm experiencing a sensation."},{o:"I slept awfully and feel terrible.",n:"I'm not quite as refreshed as I'd like."}],
+reframes:[{o:"Here comes a big crash.",n:"I don't have quite as much energy as I'd like right now."},{o:"I am not going to be able to get anything done today.",n:"I am not quite as productive as I'd like to be right now."},{o:"I feel so brain-fogged.",n:"I don't have the clarity of thinking I'd like right now."},{o:"I am in so much pain.",n:"I'm experiencing a sensation."},{o:"I slept awfully and feel terrible.",n:"I'm not quite as refreshed as I'd like."}],
 strategies:["Swap fear words for neutral ones","Practise reframes daily","After overexertion: 'I am fine'","Challenge self-talk in real time"],
 prompts:["What are your 3 most common fear-inducing phrases about symptoms? Write a neutral reframe for each.","Notice your inner dialogue today. Are you speaking to your body with fear or with calm?"]},
 {title:"Rest & Activity",subtitle:"Long-term rest increases worry space and maintains fight-or-flight.",
 concepts:["Long-term rest increases worry space and maintains fight-or-flight.","Resting more leads to more rumination, which increases symptoms, which leads to more rest — the decreased activity loop.","Prolonged rest causes secondary problems: poor sleep, muscle atrophy, poor circulation, mental health decline.","Meaningful activity reduces stress, improves mood, sleep, immunity, and pain management."],
 reframes:[{o:"I need to rest until I feel better.",n:"Long-term rest feeds the loop. What small meaningful activity can I do today?"},{o:"Activity makes my symptoms worse.",n:"Fear of activity creates a cycle. Losing the fear is what breaks it."}],
 strategies:["Match activity to current health","Reduce fear of movement","Don't push, but don't avoid","Meaningful engagement over performance"],
-prompts:["What meaningful activities have you given up? Which one could you gently re-approach?","How much of your day is structured around resting vs. engaging? How does each feel?"]},
+prompts:["What meaningful activities have you given up? Which one could you gently re-approach?","How much of your day is structured around resting vs. engaging? How does each feel?"],
+diagram:"<div class='cycle-grid'><div class='cycle-node'>Less activity</div><div class='cycle-arr-h'>→</div><div class='cycle-node'>More space for worry</div><div class='cycle-arr-v'>↑</div><div></div><div class='cycle-arr-v'>↓</div><div class='cycle-node'>Further reduced activity</div><div class='cycle-arr-h'>←</div><div class='cycle-node'>Increased symptoms</div></div>"},
 {title:"Learned Behaviour",subtitle:"The brain creates false associations that produce real symptoms — and those associations can be unlearned.",
 concepts:["The brain forms associations between perceived triggers and physical symptoms.","False associations produce real physiological responses — classical conditioning.","Even when the original trigger is gone, strong neural pathways keep producing symptoms.","The more you focus on symptoms near a trigger, the stronger they become."],
 reframes:[{o:"This trigger is definitely causing my symptoms.",n:"My brain may have learned a false association. It's activating a neural pathway, not a direct cause."},{o:"My symptoms prove something is wrong.",n:"My brain is responding to a perceived threat. The association can be changed."}],
@@ -151,7 +160,7 @@ prompts:["What activities genuinely bring you joy? When did you last do one?","W
 {title:"Talking to the Subconscious Brain",subtitle:"You can consciously interrupt your brain's automatic stress response.",
 concepts:["The brain's fight-or-flight response is automatic — but you can interrupt it with deliberate counter-messaging.","Speaking directly to the subconscious reminds it that perceived danger is not real danger.","This practice helps break the automatic stress response and reteach the brain safety.","It works best when done calmly, consistently, and with genuine intent."],
 reframes:[{o:"I can't control my body's stress response.",n:"I can speak directly to my subconscious and remind it that I am safe."},{o:"These symptoms mean something is very wrong.",n:"I know these symptoms are messages, and I am listening. Everything is okay."}],
-strategies:["'This is a false alarm'","'You're being counterproductive'","'We don't do that anymore'","'I'm listening to you'","'I am safe'"],
+strategies:["'This is a false alarm'","'You're being counterproductive'","'You're stopping me from dealing with the problem'","'I promise you I've got this'","'We don't do that anymore'","'I'm listening to you'","'I am safe'","'I need you to stop the symptoms'"],
 prompts:["Write a short letter to your subconscious brain. Thank it — then reassure it.","What specific phrase will you say next time you feel a symptom spike? Write it down and practise it."]}
 ];
 
@@ -168,6 +177,7 @@ function render(){
       <div class="section sec-reframe"><div class="section-title">🔄 Reframes & Helpful Phrases</div>${t.reframes.map(r=>`<div class="reframe-item"><div class="old">${r.o}</div><div class="new">→ ${r.n}</div></div>`).join('')}</div>
       <div class="section sec-strategy"><div class="section-title">🛠 Practical Strategies</div>${t.strategies.map(s=>`<span class="strategy-chip">${s}</span>`).join('')}</div>
       <div class="section sec-writing"><div class="section-title">✏️ Reflection Prompts</div>${t.prompts.map(p=>`<div class="prompt">${p}</div>`).join('')}</div>
+      ${t.diagram?`<div class="section sec-diagram"><div class="section-title">📊 The Cycle</div>${t.diagram}</div>`:''}
     </div>`;
   }
   const lbl=`Topic ${cur+1} of ${T.length}`;
@@ -205,7 +215,7 @@ render();
     <p style="margin-bottom:12px;font-size:0.83rem;color:#6b5b4e">This website contains my personal notes and reflections based on the FreeMe app, used as part of my ME/CFS and Long Covid recovery.</p>
     <ul>
       <li><strong>Purpose</strong> — These notes are for my own learning and are shared as a public resource for others exploring mind-body healing. They are not a substitute for using the official app or participating in the full programme.</li>
-      <li><strong>Support the creators</strong> — I highly recommend downloading the official app to access the complete programme, tracking tools, and full method. <a href="https://freemehealth.com" target="_blank">Download FreeMe app here.</a></li>
+      <li><strong>Support the creators</strong> — I highly recommend downloading the official app to access the complete programme, tracking tools, and full method. <a href="https://freemehealth.com" target="_blank">Download FreeMe Health here.</a></li>
       <li><strong>Legal note</strong> — This site is not affiliated with, authorised, or endorsed by FreeMe Health Ltd. All proprietary methods, programme content, and original terminology remain the property of the copyright holder.</li>
       <li><strong>Medical disclaimer</strong> — Please consult your healthcare provider before starting any new recovery protocol.</li>
       <li><strong>Contact</strong> — If you are the creator or publisher and have concerns regarding this content, please contact me at neda.changizi [at] gmail [dot] com for immediate modification or removal.</li>
